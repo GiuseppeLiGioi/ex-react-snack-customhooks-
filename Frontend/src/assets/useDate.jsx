@@ -24,20 +24,30 @@ function App() {
 export default App;
 */
 
-import useSwitch from "./assets/useSwitch"
-import useDate from "./assets/useDate";
+import { useState, useEffect } from "react";
+export default function useDate(){
+
+const [currentDate, setCurrentDate] = useState({})
+useEffect(() => {
+
+    const update = () => {
+        const now = new Date();
+        
+        setCurrentDate ({
+            data: now.toLocaleDateString(),
+            ora: now.toLocaleTimeString() 
+        }) 
+        
+    }
+    
+    update()
+
+    const interval = setInterval(update, 1000)
+
+    return () => clearInterval(interval) //funzione di cleanup dello useEffect
+}, [])
 
 
 
-function App() {
-const currentDate = useDate();
-
-  return (
-    <div>
-      <h1>Data e ora attuali:</h1>
-      <p>{currentDate.data}-{currentDate.ora}</p>
-    </div>
-  );
+return {...currentDate};
 }
-
-export default App
