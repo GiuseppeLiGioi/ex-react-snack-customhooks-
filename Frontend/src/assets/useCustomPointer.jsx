@@ -23,21 +23,32 @@ function App() {
 
 export default App;
 */
+import {useState, useEffect} from "react"
+export default function useCustomPointer(input){
 
+const [position, setPosition] = useState({x : 0, y : 0})
 
-import useCustomPointer from "./assets/useCustomPointer";
+useEffect(() => {
 
+   const handleMouseMove = (e) => {
+    setPosition({x: e.clientX, y: e.clientY});
+   }
 
+document.addEventListener('mousemove', handleMouseMove)
 
-function App() {
-  const customPointer = useCustomPointer("🔥");
-
-  return (
-    <div>
-      <h1>Sposta il mouse per vedere il cursore personalizzato!</h1>
-      {customPointer}
-    </div>
-  );
+return () => document.removeEventListener('mousemove', handleMouseMove)
+}, [])
+return (
+  <div //style visto e compreso nella correzione
+  style={{
+    position: "fixed",
+    top: position.y,
+    left: position.x,
+    transform: "translate(-50%, -50%)",
+    cursor: "none"
+}}
+  >
+       {input}
+  </div>  
+);
 }
-
-export default App
