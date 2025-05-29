@@ -22,23 +22,31 @@ function App() {
 }
 
 export default App;
-
 */
+import { useState, useEffect } from "react";
+export default function useKeyPress(tasto){
+const [press, setPress] = useState(false);
 
-
-import useKeyPress from "./assets/useKeyPress";
-
-
-
-function App() {
-  const isEnterPressed = useKeyPress("Enter");
-
-  return (
-    <div>
-      <h1>Tieni premuto "Enter" per testare il custom hook</h1>
-      <p>{isEnterPressed ? "Enter premuto! ✅" : "Aspettando input... ⌨️"}</p>
-    </div>
-  );
+const rilevaPress = (e) =>{
+if(e.key === tasto){
+setPress(true);
+}
 }
 
-export default App
+const rilasciaPress = (e) =>{
+if(e.key === tasto){
+setPress(false);
+}
+}
+
+useEffect(() => {
+window.addEventListener('keydown', rilevaPress)
+window.addEventListener('keyup', rilasciaPress)
+
+return () => {
+window.removeEventListener('keydown', rilevaPress)
+window.removeEventListener('keyup', rilasciaPress)
+}
+}, [])
+return press
+}
