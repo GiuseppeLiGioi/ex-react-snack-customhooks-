@@ -24,23 +24,14 @@ function App() {
 export default App;
 */
 
-import useSwitch from "./assets/useSwitch"
+import { useState } from "react";
 
+export default function useSwitch(){
 
+const [isOn, setIsOn] = useState(false)
 
-function App() {
-const {isOn, toggle} = useSwitch();
-
-  return (
-    <>
-      
-    <div>
-      <h1>Il valore è: {isOn ? "ON" : "OFF"}</h1>
-      <button onClick={toggle}>Cambia Stato</button>
-    </div>
-  
-    </>
-  )
+function toggle(){
+    setIsOn(!isOn);
 }
-
-export default App
+return {isOn, toggle};
+}
